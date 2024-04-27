@@ -1,1 +1,3 @@
-export const ENTRYPOINT = typeof window === "undefined" ? process.env.NEXT_PUBLIC_ENTRYPOINT : window.origin;
+export const ENTRYPOINT: string | undefined = typeof window === 'undefined'
+      ? process.env.NUXT_PUBLIC_ENTRYPOINT
+      : window.origin

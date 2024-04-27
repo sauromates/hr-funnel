@@ -1,9 +1,7 @@
 #syntax=docker/dockerfile:1.4
 
-
 # Versions
 FROM node:20-alpine AS node_upstream
-
 
 # Base stage for dev and build
 FROM node_upstream AS base
@@ -18,21 +16,12 @@ RUN corepack enable && \
 	corepack prepare --activate pnpm@latest && \
 	pnpm config -g set store-dir /.pnpm-store
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Delete the following line in case you want to enable telemetry during dev and build.
-ENV NEXT_TELEMETRY_DISABLED 1
-
-
 # Development image
 FROM base as dev
 
 EXPOSE 3000
-ENV PORT 3000
-ENV HOSTNAME localhost
 
 CMD ["sh", "-c", "pnpm install; pnpm dev"]
-
 
 FROM base AS builder
 
@@ -44,35 +33,26 @@ COPY --link . .
 RUN	pnpm install --frozen-lockfile --offline --prod && \
 	pnpm run build
 
-
-# Production image, copy all the files and run next
+# Production image, copy all the files and run compiled app
 FROM node_upstream AS prod
 
 WORKDIR /srv/app
 
 ENV NODE_ENV production
-# Delete the following line in case you want to enable telemetry during runtime.
-ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs; \
-	adduser --system --uid 1001 nextjs
+	adduser --system --uid 1001 nuxtjs
 
-COPY --from=builder --link /srv/app/public ./public
+COPY --from=builder --link --chown=1001:1001 /app/public ./public
+COPY --from=builder --link --chown=1001:1001 /app/.output ./.output
 
-# Set the correct permission for prerender cache
-RUN mkdir .next; \
-	chown nextjs:nodejs .next
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --link --chown=1001:1001 /srv/app/.next/standalone ./
-COPY --from=builder --link --chown=1001:1001 /srv/app/.next/static ./.next/static
-
-USER nextjs
+USER nuxtjs
 
 EXPOSE 3000
 
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV NUXT_PORT 3000
+ENV NUXT_HOST "0.0.0.0"
 
-CMD ["node", "server.js"]
+HEALTHCHECK --start-period=60s CMD curl -f http://localhost:3000 || exit 1
+
+CMD ["node", ".output/server/index.mjs"]
