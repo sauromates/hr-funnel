@@ -43,8 +43,8 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs; \
 	adduser --system --uid 1001 nuxtjs
 
-COPY --from=builder --link --chown=1001:1001 /app/public ./public
-COPY --from=builder --link --chown=1001:1001 /app/.output ./.output
+COPY --from=builder --link --chown=1001:1001 /srv/app/public ./public
+COPY --from=builder --link --chown=1001:1001 /srv/app/.output ./.output
 
 USER nuxtjs
 
