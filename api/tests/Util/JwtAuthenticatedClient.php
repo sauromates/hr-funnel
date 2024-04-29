@@ -11,7 +11,7 @@ use App\DataFixtures\UserFixtures;
 /**
  * @mixin ApiTestCase
  */
-trait JwtAuthenticatedClientTrait
+trait JwtAuthenticatedClient
 {
     /**
      * Creates an instance of HttpClient with JWT for given or fixture user.

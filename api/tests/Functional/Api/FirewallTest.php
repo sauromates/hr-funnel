@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Api;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use App\Tests\Util\JwtAuthenticatedClientTrait;
+use App\Tests\Util\JwtAuthenticatedClient;
 use Symfony\Component\HttpFoundation\Response;
 
 final class FirewallTest extends ApiTestCase
 {
-    use JwtAuthenticatedClientTrait;
+    use JwtAuthenticatedClient;
 
     public function testApiRoutesRequireAuthentication(): void
     {
