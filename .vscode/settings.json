@@ -1,15 +1,17 @@
 {
-  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
   "[vue]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[php]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "junstyle.php-cs-fixer"
   },
   "eslint.experimental.useFlatConfig": true
