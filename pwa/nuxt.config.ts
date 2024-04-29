@@ -2,4 +2,8 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/eslint', '@pinia/nuxt'],
+  experimental: {
+    // See https://github.com/api-platform/create-client/issues/382
+    renderJsonPayloads: false,
+  },
 });
