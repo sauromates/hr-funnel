@@ -102,7 +102,13 @@
             "@psalm",
             "@cs-fixer-test"
         ],
-        "test": "./bin/phpunit --testdox"
+        "test": "./bin/phpunit --testdox",
+        "migrate:fresh": [
+            "@php bin/console doctrine:database:drop --force",
+            "@php bin/console doctrine:database:create",
+            "@php bin/console doctrine:migrations:migrate --no-interaction",
+            "@php bin/console doctrine:fixtures:load --no-interaction"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"
