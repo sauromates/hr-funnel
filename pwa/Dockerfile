@@ -25,7 +25,7 @@ CMD ["sh", "-c", "pnpm install; pnpm dev"]
 
 FROM base AS builder
 
-COPY --link pnpm-lock.yaml ./
+COPY --link pnpm-lock.yaml .npmrc ./
 RUN pnpm fetch --prod
 
 COPY --link . .

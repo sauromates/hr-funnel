@@ -1,23 +1,33 @@
 {
-    "name": "nuxt-app",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "build": "nuxt build",
-        "dev": "nuxt dev",
-        "generate": "nuxt generate",
-        "preview": "nuxt preview",
-        "postinstall": "nuxt prepare"
-    },
-    "dependencies": {
-        "@nuxt/eslint": "^0.3.10",
-        "@pinia/nuxt": "^0.5.1",
-        "nuxt": "^3.11.2",
-        "pinia": "^2.1.7",
-        "vue": "^3.4.21",
-        "vue-router": "^4.3.0"
-    },
-    "devDependencies": {
-        "prettier": "^3.2.5"
-    }
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint:test": "eslint . & prettier . --check",
+    "lint:fix": "eslint . --fix & prettier . --write",
+    "test": "vitest run --typecheck"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "^0.3.10",
+    "@pinia/nuxt": "^0.5.1",
+    "@types/qs": "^6.9.15",
+    "dayjs": "^1.11.11",
+    "nuxt": "^3.11.2",
+    "pinia": "^2.1.7",
+    "qs": "^6.12.1",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^3.12.1",
+    "@vue/test-utils": "^2.4.5",
+    "happy-dom": "^14.7.1",
+    "prettier": "^3.2.5",
+    "vitest": "^1.5.2"
+  }
 }
