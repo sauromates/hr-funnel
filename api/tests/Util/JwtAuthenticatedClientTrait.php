@@ -43,7 +43,7 @@ trait JwtAuthenticatedClientTrait
                 'Authorization' => 'Bearer '.$responseData['token'],
                 'Accept' => 'application/ld+json',
                 'Content-Type' => 'application/json',
-            ]
+            ],
         ]);
     }
 }
