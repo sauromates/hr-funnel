@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <psalm
-    errorLevel="2"
+    errorLevel="1"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
@@ -17,4 +17,15 @@
     <plugins>
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
     </plugins>
+    <issueHandlers>
+        <!-- A lot of Symfony methods may trigger this as false positive -->
+        <PossiblyUnusedMethod errorLevel="suppress" />
+
+        <!-- Symfony repositories use ManagerRegistry $registry parameter to call parent constructor with it -->
+        <UnusedParam>
+            <errorLevel type="suppress">
+                <directory name="src/Repository" />
+            </errorLevel>
+        </UnusedParam>
+    </issueHandlers>
 </psalm>
