@@ -1,37 +1,44 @@
 import type { User } from '~/types/user';
 
-export const useAuthStore = defineStore('auth', () => {
-  const { token } = useJwt();
-  const user = ref<User | null>(null);
+export const useAuthStore = defineStore(
+  'auth',
+  () => {
+    const user = ref<User | null>(null);
 
-  const login = async (credentials: Pick<User, 'email' | 'password'>): Promise<void> => {
-    const { data } = await useApi<{ token: string }>('/api/login_check', {
-      method: 'POST',
-      body: credentials,
-    });
+    const isAuthenticated = computed<boolean>(() => user.value !== null);
 
-    if (data.value) {
-      token.value = data.value.token;
-    }
-  };
+    const login = async (credentials: Pick<User, 'email' | 'password'>): Promise<void> => {
+      const { data } = await useApi<{ token: string }>('/api/login_check', {
+        method: 'POST',
+        body: credentials,
+      });
 
-  const fetchProfile = async (): Promise<void> => {
-    const { retrieved } = await useFetchItem<User>('/api/users/me');
-    if (retrieved.value) {
-      user.value = retrieved.value;
-    }
-  };
+      if (data.value) {
+        await fetchProfile().then(() => reloadNuxtApp({ path: '/' }));
+      }
+    };
 
-  const logout = (): void => {
-    token.value = null;
-    user.value = null;
-  };
+    const fetchProfile = async (): Promise<void> => {
+      const { retrieved } = await useFetchItem<User>('/api/users/me');
+      if (retrieved.value) {
+        user.value = retrieved.value;
+      }
+    };
 
-  return {
-    token,
-    user,
-    login,
-    logout,
-    fetchProfile,
-  };
-});
+    const logout = async (): Promise<void> => {
+      await useApi('/api/logout', { method: 'GET' }).then(() => {
+        user.value = null;
+        reloadNuxtApp();
+      });
+    };
+
+    return {
+      user,
+      isAuthenticated,
+      login,
+      logout,
+      fetchProfile,
+    };
+  },
+  { persist: true }
+);
