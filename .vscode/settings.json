@@ -1,22 +1,30 @@
 {
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
+  "[yaml]": {
+    "editor.formatOnSave": false,
+  },
   "[vue]": {
-    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
-    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[php]": {
-    "editor.formatOnSave": true,
     "editor.defaultFormatter": "junstyle.php-cs-fixer"
   },
   "eslint.experimental.useFlatConfig": true,
+  "eslint.options": {
+    "overrideConfigFile": "pwa/eslint.config.mjs",
+  },
   "phpstan.binPath": "api/vendor/bin/phpstan",
   "phpstan.configFile": "api/phpstan.dist.neon",
   "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
   "php-cs-fixer.config": "api/.php-cs-fixer.dist.php",
+  "prettier.configPath": "pwa/prettier.config.js",
 }
