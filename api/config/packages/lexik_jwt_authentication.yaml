@@ -6,6 +6,20 @@ lexik_jwt_authentication:
         check_path: /api/login_check
         username_path: email
         password_path: password
+    token_extractors:
+        authorization_header:
+            enabled: true
+            prefix: Bearer
+            name: Authorization
+        cookie:
+            enabled: true
+            name: Bearer
+    set_cookies:
+        Bearer: ~
+    blocklist_token:
+        enabled: true
+        cache: cache.app
+    remove_token_from_body_when_cookies_used: false
 
 when@test:
     lexik_jwt_authentication:
