@@ -40,11 +40,7 @@ export function useMercureItem({
       return;
     }
 
-    mercureSub = mercureSubscribe(
-      state.hubUrl,
-      [state.retrieved['@id'] ?? ''],
-      mercureEl
-    );
+    mercureSub = mercureSubscribe(state.hubUrl, [state.retrieved['@id'] ?? ''], mercureEl);
   });
 
   // eslint-disable-next-line
