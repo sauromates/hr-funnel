@@ -10,6 +10,6 @@ export default defineNuxtConfig({
     public: {
       baseURL: '',
       entrypoint: '',
-    }
-  }
+    },
+  },
 });

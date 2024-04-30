@@ -1,6 +1,6 @@
-import type { FetchAllData } from "~/types/api";
-import type { PagedCollection } from "~/types/collection";
-import type { View } from "~/types/view";
+import type { FetchAllData } from '~/types/api';
+import type { PagedCollection } from '~/types/collection';
+import type { View } from '~/types/view';
 
 export async function useFetchList<T>(resource: string): Promise<FetchAllData<T>> {
   const route = useRoute();

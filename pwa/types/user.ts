@@ -1,4 +1,4 @@
-import type { Item } from "./item";
+import type { Item } from './item';
 
 export interface User extends Item {
   id?: string;

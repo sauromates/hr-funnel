@@ -1,4 +1,4 @@
-import type { FetchItemData } from "~/types/api";
+import type { FetchItemData } from '~/types/api';
 
 export async function useFetchItem<T>(path: string): Promise<FetchItemData<T>> {
   const retrieved: Ref<T | undefined> = ref(undefined);

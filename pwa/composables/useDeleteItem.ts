@@ -1,4 +1,4 @@
-import type { Item } from "~/types/item";
+import type { Item } from '~/types/item';
 
 export async function useDeleteItem(item: Item) {
   const error: Ref<string | undefined> = ref(undefined);

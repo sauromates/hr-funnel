@@ -1,5 +1,5 @@
-import type { SubmissionErrors } from "~/types/error";
-import type { Item } from "~/types/item";
+import type { SubmissionErrors } from '~/types/error';
+import type { Item } from '~/types/item';
 
 export async function useCreateItem<T>(resource: string, payload: Item) {
   const created: Ref<T | undefined> = ref(undefined);
@@ -16,11 +16,9 @@ export async function useCreateItem<T>(resource: string, payload: Item) {
       if (!data.violations) throw new Error(error);
 
       const errors: SubmissionErrors = { _error: error };
-      data.violations.forEach(
-        (violation: { propertyPath: string; message: string }) => {
-          errors[violation.propertyPath] = violation.message;
-        }
-      );
+      data.violations.forEach((violation: { propertyPath: string; message: string }) => {
+        errors[violation.propertyPath] = violation.message;
+      });
 
       violations.value = errors;
 

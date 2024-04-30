@@ -1,4 +1,4 @@
-import type { UseFetchOptions } from "#app";
+import type { UseFetchOptions } from '#app';
 
 // const HttpUnauthorized: number = 401;
 
@@ -13,13 +13,13 @@ export async function useApi<T>(path: string, options: UseFetchOptions<T>) {
 
     headers: {
       Accept: 'application/ld+json',
-      Authorization: `Bearer ${token.value ?? ''}`
+      Authorization: `Bearer ${token.value ?? ''}`,
     },
 
     onRequest({ options }) {
       // Request from the server should be directed to Docker service
       // instead of public URL. Keep it for SSR to work.
-      if (process.server) {
+      if (import.meta.server) {
         options.baseURL = ENTRYPOINT; // Entrypoint defaults to `http://php`
       }
     },

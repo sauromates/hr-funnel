@@ -3,13 +3,7 @@ import type { StoreGeneric } from 'pinia';
 import { mercureSubscribe } from '../utils/mercure';
 import type { Item } from '../types/item';
 
-export function useMercureList({
-  store,
-  deleteStore,
-}: {
-  store: StoreGeneric;
-  deleteStore: StoreGeneric;
-}) {
+export function useMercureList({ store, deleteStore }: { store: StoreGeneric; deleteStore: StoreGeneric }) {
   const mercureEl = <T extends Item>(data: T) => {
     if (Object.keys(data).length === 1) {
       store.deleteItem(data);
