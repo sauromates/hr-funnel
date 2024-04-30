@@ -1,10 +1,9 @@
 import type { UseFetchOptions } from '#app';
-
-// const HttpUnauthorized: number = 401;
+import setCookie from 'set-cookie-parser';
 
 export async function useApi<T>(path: string, options: UseFetchOptions<T>) {
-  const { token } = useJwt();
-  const config = useRuntimeConfig();
+  const event = useRequestEvent();
+  const config = useRuntimeConfig(event);
 
   const response = await useFetch(path, {
     baseURL: config.public.baseURL,
@@ -13,26 +12,44 @@ export async function useApi<T>(path: string, options: UseFetchOptions<T>) {
 
     headers: {
       Accept: 'application/ld+json',
-      Authorization: `Bearer ${token.value ?? ''}`,
     },
 
     onRequest({ options }) {
-      // Request from the server should be directed to Docker service
-      // instead of public URL. Keep it for SSR to work.
       if (import.meta.server) {
+        // Request from the server should be directed to Docker service
+        // instead of public URL. Keep it for SSR to work.
         options.baseURL = ENTRYPOINT; // Entrypoint defaults to `http://php`
+
+        const headers = options.headers;
+        const clientCookies = useRequestHeaders(['cookie']);
+
+        options.headers = {
+          ...headers,
+          ...(clientCookies.cookie && clientCookies),
+        };
       }
     },
 
-    onResponseError({ response }) {
-      // if (response.status === HttpUnauthorized) {
+    onResponse({ response }): void {
+      if (import.meta.server) {
+        const rawCookies: string[] = response.headers.getSetCookie();
+        const cookies = setCookie.parse(rawCookies);
 
-      // }
+        if (cookies.length > 0 && event !== undefined) {
+          for (const cookie of cookies) {
+            appendHeader(event, cookie.name, cookie.value);
+          }
+        }
+      }
+    },
 
+    async onResponseError({ response }) {
       const data = response._data;
-      const error = data['hydra:description'] || response.statusText;
-
-      throw new Error(error);
+      throw createError({
+        message: data['hydra:description'] || data.message,
+        statusCode: response.status,
+        statusMessage: response.statusText,
+      });
     },
 
     ...options,
