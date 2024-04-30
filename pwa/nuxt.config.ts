@@ -6,4 +6,10 @@ export default defineNuxtConfig({
     // See https://github.com/api-platform/create-client/issues/382
     renderJsonPayloads: false,
   },
+  runtimeConfig: {
+    public: {
+      baseURL: '',
+      entrypoint: '',
+    }
+  }
 });
