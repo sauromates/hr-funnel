@@ -20,8 +20,10 @@ export async function useFetchList<T>(resource: string): Promise<FetchAllData<T>
   });
 
   const value = data.value as PagedCollection<T>;
-  items.value = value['hydra:member'];
-  view.value = value['hydra:view'];
+  if (value) {
+    items.value = value['hydra:member'] ?? [];
+    view.value = value['hydra:view'] ?? undefined;
+  }
 
   return {
     items,
