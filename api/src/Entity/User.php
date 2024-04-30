@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\UserRepository;
+use App\State\ProfileProvider;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Attribute\Ignore;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -19,8 +21,19 @@ use Symfony\Component\Serializer\Attribute\Ignore;
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(
+            uriTemplate: '/users/me.{_format}',
+            provider: ProfileProvider::class,
+        ),
+        new Get(
+            // Explicit URI Template is needed to allow API Platform to use
+            // this path for IRI generation instead of `/api/users/me`. This
+            // also applies to the following GetCollection configuration
+            uriTemplate: '/users/{id}.{_format}',
+        ),
+        new GetCollection(
+            itemUriTemplate: '/users/{id}.{_format}',
+        ),
     ],
     security: 'is_granted("ROLE_USER")',
     routePrefix: '/api'
@@ -48,9 +61,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Ignore]
+    #[ApiProperty(security: 'object == user')]
     private ?string $password = null;
 
+    #[Serializer\Ignore]
     private ?string $plainPassword = null;
 
     #[ORM\Column]
@@ -93,7 +107,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
-    #[Ignore]
+    #[Serializer\Ignore]
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
