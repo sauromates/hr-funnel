@@ -14,5 +14,9 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "junstyle.php-cs-fixer"
   },
-  "eslint.experimental.useFlatConfig": true
+  "eslint.experimental.useFlatConfig": true,
+  "phpstan.binPath": "api/vendor/bin/phpstan",
+  "phpstan.configFile": "api/phpstan.dist.neon",
+  "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
+  "php-cs-fixer.config": "api/.php-cs-fixer.dist.php",
 }
