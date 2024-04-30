@@ -95,12 +95,12 @@
         ],
         "phpstan": "./vendor/bin/phpstan analyze --no-progress --memory-limit=512M",
         "psalm": "./vendor/bin/psalm --no-progress --show-info=true",
-        "cs-fixer-test": "./vendor/bin/php-cs-fixer fix --dry-run --verbose",
-        "cs-fixer-fix": "./vendor/bin/php-cs-fixer fix --verbose",
+        "cs:test": "./vendor/bin/php-cs-fixer fix --dry-run --verbose",
+        "cs:fix": "./vendor/bin/php-cs-fixer fix --verbose",
         "lint": [
             "@phpstan",
             "@psalm",
-            "@cs-fixer-test"
+            "@cs:test"
         ],
         "test": "./bin/phpunit --testdox",
         "migrate:fresh": [
