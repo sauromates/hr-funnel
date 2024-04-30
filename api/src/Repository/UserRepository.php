@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\DataFixtures\UserFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -38,5 +40,21 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+
+    #[When('test')]
+    public function findFixtureUser(): User
+    {
+        $user = $this->createQueryBuilder('u')
+            ->andWhere('u.email = :email')
+            ->setParameter('email', UserFixtures::FIXTURE_USER_EMAIL)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (null === $user) {
+            throw new \RuntimeException('Can\'t find fixture user. Are fixtures loaded?');
+        }
+
+        return $user;
     }
 }
