@@ -18,7 +18,8 @@ final class InvalidateJwtCookie
     {
         $response = $event->getResponse() ?? new Response();
 
-        $response->headers->clearCookie('Bearer');
+        $response->headers->clearCookie('token');
+        $response->headers->clearCookie('refreshToken');
         $response->setStatusCode(Response::HTTP_NO_CONTENT);
 
         $event->setResponse($response);

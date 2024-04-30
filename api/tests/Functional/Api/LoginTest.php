@@ -35,6 +35,8 @@ final class LoginTest extends ApiTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertArrayHasKey('token', $response->toArray());
-        $this->assertResponseHasCookie('Bearer');
+        $this->assertArrayHasKey('refreshToken', $response->toArray());
+        $this->assertResponseHasCookie('token');
+        $this->assertResponseHasCookie('refreshToken');
     }
 }

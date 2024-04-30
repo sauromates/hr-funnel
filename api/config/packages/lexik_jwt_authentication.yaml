@@ -13,9 +13,9 @@ lexik_jwt_authentication:
             name: Authorization
         cookie:
             enabled: true
-            name: Bearer
+            name: token
     set_cookies:
-        Bearer: ~
+        token: ~
     blocklist_token:
         enabled: true
         cache: cache.app

@@ -7,3 +7,11 @@ controllers:
 api_login_check:
     path: /api/login_check
     methods: POST
+
+api_refresh_token:
+    path: /api/refresh_token
+    methods: GET|POST
+
+api_logout:
+    path: /api/logout
+    methods: GET
