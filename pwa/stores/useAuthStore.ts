@@ -8,14 +8,9 @@ export const useAuthStore = defineStore(
     const isAuthenticated = computed<boolean>(() => user.value !== null);
 
     const login = async (credentials: Pick<User, 'email' | 'password'>): Promise<void> => {
-      const { data } = await useApi<{ token: string }>('/api/login_check', {
-        method: 'POST',
-        body: credentials,
-      });
-
-      if (data.value) {
-        await fetchProfile().then(() => reloadNuxtApp({ path: '/' }));
-      }
+      await useApi('/api/login_check', { method: 'POST', body: credentials, credentials: 'include' })
+        .then(() => fetchProfile())
+        .then(() => reloadNuxtApp({ path: '/' }));
     };
 
     const fetchProfile = async (): Promise<void> => {
@@ -26,10 +21,9 @@ export const useAuthStore = defineStore(
     };
 
     const logout = async (): Promise<void> => {
-      await useApi('/api/logout', { method: 'GET' }).then(() => {
-        user.value = null;
-        reloadNuxtApp();
-      });
+      await useApi('/api/logout')
+        .then(() => (user.value = null))
+        .then(() => reloadNuxtApp());
     };
 
     return {
