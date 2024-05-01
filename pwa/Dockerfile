@@ -12,26 +12,25 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /srv/app
 
-RUN corepack enable && \
-	corepack prepare --activate pnpm@latest && \
-	pnpm config -g set store-dir /.pnpm-store
-
 # Development image
 FROM base as dev
 
+ENV NODE_ENV development
+
 EXPOSE 3000
 
-CMD ["sh", "-c", "pnpm install; pnpm dev"]
+CMD ["sh", "-c", "npm install; npm run dev"]
 
 FROM base AS builder
 
-COPY --link pnpm-lock.yaml .npmrc ./
-RUN pnpm fetch --prod
+ENV NODE_ENV production
+
+COPY --link package-lock.json .npmrc ./
+RUN npm ci
 
 COPY --link . .
 
-RUN	pnpm install --frozen-lockfile --offline --prod && \
-	pnpm run build
+RUN	npm run build
 
 # Production image, copy all the files and run compiled app
 FROM node_upstream AS prod
@@ -39,6 +38,8 @@ FROM node_upstream AS prod
 WORKDIR /srv/app
 
 ENV NODE_ENV production
+ENV NUXT_PORT 3000
+ENV NUXT_HOST "0.0.0.0"
 
 RUN addgroup --system --gid 1001 nodejs; \
 	adduser --system --uid 1001 nuxtjs
@@ -49,9 +50,6 @@ COPY --from=builder --link --chown=1001:1001 /srv/app/.output ./.output
 USER nuxtjs
 
 EXPOSE 3000
-
-ENV NUXT_PORT 3000
-ENV NUXT_HOST "0.0.0.0"
 
 HEALTHCHECK --start-period=60s CMD curl -f http://localhost:3000 || exit 1
 
