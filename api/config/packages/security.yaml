@@ -31,6 +31,8 @@ security:
                 check_path: api_refresh_token
             logout:
                 path: api_logout
+                delete_cookies:
+                    token: null
 
         main:
             lazy: true
