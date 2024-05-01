@@ -41,11 +41,11 @@ jobs:
       - name: Run PHPUnit
         run: docker compose exec -T php bin/phpunit
       - name: Run Vitest
-        run: docker compose exec -T pwa pnpm test
+        run: docker compose exec -T pwa npm run test
       - name: PHP code quality
         run: docker compose exec -T php composer lint
       - name: Nuxt code quality
-        run: docker compose exec -T pwa pnpm lint:test
+        run: docker compose exec -T pwa npm run lint:test
   lint:
     name: Docker Lint
     runs-on: ubuntu-latest
