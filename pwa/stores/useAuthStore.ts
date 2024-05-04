@@ -10,7 +10,7 @@ export const useAuthStore = defineStore(
     async function login(credentials: LoginCredentials): Promise<void> {
       await useApi('/api/login_check', { method: 'POST', body: credentials, credentials: 'include' })
         .then(() => fetchProfile())
-        .then(() => reloadNuxtApp({ path: '/' }));
+        .then(() => reloadNuxtApp({ path: '/dashboard' }));
     }
 
     async function fetchProfile(): Promise<User | undefined> {
@@ -25,7 +25,7 @@ export const useAuthStore = defineStore(
     async function logout(): Promise<void> {
       await useApi('/api/logout')
         .then(() => (user.value = null))
-        .then(() => reloadNuxtApp());
+        .then(() => reloadNuxtApp({ path: '/' }));
     }
 
     return {
