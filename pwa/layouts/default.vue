@@ -10,9 +10,3 @@
     <DefaultFooter />
   </UContainer>
 </template>
-
-<style>
-body {
-  @apply bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300;
-}
-</style>
