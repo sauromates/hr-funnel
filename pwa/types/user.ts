@@ -1,6 +1,6 @@
 import type { Item } from './item';
 
-export interface User extends Item {
+export interface MaybeUser extends Item {
   id?: string;
   email: string;
   password?: string;
@@ -9,3 +9,18 @@ export interface User extends Item {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface User extends MaybeUser {
+  '@context': `/contexts/${Capitalize<string>}`;
+  '@id': string;
+  '@type': string;
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export type LoginCredentials = {
+  email: string;
+  password: string;
+  remember?: boolean;
+};
