@@ -4,7 +4,7 @@ export default defineAppConfig({
     gray: 'cool',
     container: {
       constrained: 'max-w-screen',
-      padding: 'px-2 sm:px-4 lg:px-12',
+      padding: 'px-4 sm:px-8 lg:px-12',
     },
   },
 });

@@ -7,7 +7,7 @@ const { isMediumScreen } = useTailwindMediaQuery();
 
 <template>
   <header
-    class="flex items-center justify-between py-4 px-2 sm:px-4 lg:px-12 w-full bg-gray-100 dark:bg-gray-800 border-b dark:border-b-gray-600"
+    class="flex items-center justify-between py-4 px-4 sm:px-8 lg:px-12 w-full bg-gray-100 dark:bg-gray-800 border-b dark:border-b-gray-600"
   >
     <slot name="left">
       <h1 class="font-semibold text-xl cursor-pointer" @click="navigateHome">HR Funnel</h1>
@@ -21,7 +21,7 @@ const { isMediumScreen } = useTailwindMediaQuery();
           <UButton v-if="user" color="primary" variant="outline" label="Log out" @click="logout" />
         </div>
         <div v-else class="flex items-center gap-4">
-          <LoginButton />
+          <UButton variant="outline" label="Log in" to="/login" />
           <UButton variant="outline" label="Signup" />
         </div>
       </div>

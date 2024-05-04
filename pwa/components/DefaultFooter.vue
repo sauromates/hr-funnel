@@ -1,5 +1,5 @@
 <template>
-  <footer class="w-full px-2 sm:px-4 lg:px-12 py-4">
+  <footer class="w-full px-4 sm:px-8 lg:px-12 py-4">
     <slot>
       <UButton
         variant="link"
