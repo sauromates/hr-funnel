@@ -19,9 +19,9 @@
     "editor.defaultFormatter": "junstyle.php-cs-fixer"
   },
   "eslint.experimental.useFlatConfig": true,
-  "eslint.options": {
-    "overrideConfigFile": "pwa/eslint.config.mjs",
-  },
+  "eslint.workingDirectories": [
+    "pwa/"
+  ],
   "phpstan.binPath": "api/vendor/bin/phpstan",
   "phpstan.configFile": "api/phpstan.dist.neon",
   "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
@@ -30,6 +30,9 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
+  "css.customData": [
+    ".vscode/tailwind.json"
+  ],
   "editor.quickSuggestions": {
     "strings": true
   },
@@ -38,5 +41,5 @@
     "className",
     "ngClass",
     "ui"
-  ]
+  ],
 }

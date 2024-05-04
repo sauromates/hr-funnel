@@ -1,30 +1,32 @@
-import type { User } from '~/types/user';
+import type { AuthStore } from '~/types/stores/auth-store';
+import type { User, LoginCredentials } from '~/types/user';
 
 export const useAuthStore = defineStore(
   'auth',
-  () => {
+  (): AuthStore => {
     const user = ref<User | null>(null);
-
     const isAuthenticated = computed<boolean>(() => user.value !== null);
 
-    const login = async (credentials: Pick<User, 'email' | 'password'>): Promise<void> => {
+    async function login(credentials: LoginCredentials): Promise<void> {
       await useApi('/api/login_check', { method: 'POST', body: credentials, credentials: 'include' })
         .then(() => fetchProfile())
-        .then(() => reloadNuxtApp({ path: '/' }));
-    };
+        .then(() => reloadNuxtApp({ path: '/dashboard' }));
+    }
 
-    const fetchProfile = async (): Promise<void> => {
+    async function fetchProfile(): Promise<User | undefined> {
       const { retrieved } = await useFetchItem<User>('/api/users/me');
       if (retrieved.value) {
         user.value = retrieved.value;
       }
-    };
 
-    const logout = async (): Promise<void> => {
+      return retrieved.value;
+    }
+
+    async function logout(): Promise<void> {
       await useApi('/api/logout')
         .then(() => (user.value = null))
-        .then(() => reloadNuxtApp());
-    };
+        .then(() => reloadNuxtApp({ path: '/' }));
+    }
 
     return {
       user,

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-definePageMeta({ layout: 'guest' });
+useHead({ title: 'Dashboard' });
+definePageMeta({ middleware: 'auth' });
 </script>
 
 <template>
