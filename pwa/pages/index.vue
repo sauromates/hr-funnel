@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useHead({ title: 'HR Funnel' });
+definePageMeta({ layout: 'guest' });
 </script>
 
 <template>

@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
+      appName: 'HRF',
       baseURL: '',
       entrypoint: '',
     },
