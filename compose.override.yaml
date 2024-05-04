@@ -27,7 +27,6 @@ services:
       target: dev
     volumes:
       - ./pwa:/srv/app
-      - /srv/app/.pnpm-store
     environment:
       API_PLATFORM_CREATE_CLIENT_ENTRYPOINT: http://php
       API_PLATFORM_CREATE_CLIENT_OUTPUT: .
