@@ -1,3 +1,6 @@
 export async function navigateHome(): Promise<void> {
-  navigateTo('/');
+  const { isAuthenticated } = useAuthStore();
+  const homePath: string = isAuthenticated ? '/dashboard' : '/';
+
+  await navigateTo(homePath);
 }
