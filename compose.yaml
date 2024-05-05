@@ -1,6 +1,6 @@
 services:
   php:
-    image: ${IMAGES_PREFIX:-}app-php
+    image: ${IMAGES_PREFIX:-hrf:}app-php
     depends_on:
       - database
     restart: unless-stopped
@@ -33,7 +33,7 @@ services:
         protocol: udp
 
   pwa:
-    image: ${IMAGES_PREFIX:-}app-pwa
+    image: ${IMAGES_PREFIX:-hrf:}app-php
     environment:
       NUXT_PUBLIC_ENTRYPOINT: http://php
 
