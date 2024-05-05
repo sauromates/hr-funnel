@@ -27,7 +27,7 @@
     "set-cookie-parser": "^2.6.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
-    "zod": "^3.23.5"
+    "zod": "^3.23.6"
   },
   "devDependencies": {
     "@nuxt/test-utils": "^3.12.1",
