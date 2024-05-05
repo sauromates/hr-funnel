@@ -1,45 +1,46 @@
 {
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
   },
-  "[yaml]": {
-    "editor.formatOnSave": false,
-  },
-  "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[php]": {
-    "editor.defaultFormatter": "junstyle.php-cs-fixer"
-  },
-  "eslint.experimental.useFlatConfig": true,
-  "eslint.workingDirectories": [
-    "pwa/"
-  ],
-  "phpstan.binPath": "api/vendor/bin/phpstan",
-  "phpstan.configFile": "api/phpstan.dist.neon",
-  "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
-  "php-cs-fixer.config": "api/.php-cs-fixer.dist.php",
-  "prettier.configPath": "pwa/prettier.config.js",
+  "css.customData": [".vscode/tailwind.json"],
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "css.customData": [
-    ".vscode/tailwind.json"
-  ],
-  "editor.quickSuggestions": {
-    "strings": true
-  },
   "tailwindCSS.classAttributes": [
     "class",
-    "className",
-    "ngClass",
-    "ui"
+    "ui" // Nuxt UI needs this for Tailwind autocompletion
   ],
+  "eslint.experimental.useFlatConfig": true,
+  "eslint.workingDirectories": ["pwa"],
+  "prettier.configPath": "pwa/prettier.config.cjs",
+  "vitest.rootConfig": "pwa/vitest.config.ts",
+  "nuxtr.defaultPackageManager": "NPM",
+  "nuxtr.monorepoMode.DirectoryName": "pwa",
+  "nuxtr.piniaFiles.defaultTemplate": "setup",
+  "nuxtr.vueFiles.firstTag": "script",
+  "nuxtr.vueFiles.style.addStyleTag": false,
+  "nuxtr.vueFiles.style.alwaysScoped": true,
+  "nuxtr.openItemsAfterCreation": true,
+  "[php]": {
+    "editor.defaultFormatter": "junstyle.php-cs-fixer"
+  },
+  "php.format.codeStyle": "Off", // PHP-CS-Fixer is used as a formatter
+  "php.problems.exclude": {
+    "vendor/": true
+  },
+  "php.problems.excludeGitIgnore": true,
+  "composer.workingPath": "api",
+  "php-cs-fixer.config": "api/.php-cs-fixer.dist.php",
+  "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
+  "phpstan.binPath": "api/vendor/bin/phpstan",
+  "phpstan.configFile": "api/phpstan.dist.neon",
+  "phpstan.checkValidity": true,
+  "psalm.psalmScriptPath": "api/vendor/bin/psalm",
+  "psalm.configPaths": ["api/psalm.xml", "api/psalm.xml.dist"],
+  "psalm.unusedVariableDetection": true,
+  "phpunit.command": "docker compose run --rm php bin/phpunit ${phpunitargs}"
 }
