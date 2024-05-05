@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    // Highly opinionated as it seem, this extension is the only one
+    // that provide stable test explorer for PHPUnit in VSCode
+    "devsense.phptools-vscode",
+    // PHP tools
+    "getpsalm.psalm-vscode-plugin",
+    "junstyle.php-cs-fixer",
+    "sanderronde.phpstan-vscode",
+    // Vue/TypeScript tools
+    "vue.volar",
+    "nuxtr.nuxtr-vscode",
+    "vitest.explorer",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    // Common tools
+    "bradlc.vscode-tailwindcss",
+    "editorconfig.editorconfig"
+  ]
+}
