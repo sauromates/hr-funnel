@@ -12,8 +12,6 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 /**
  * Validates that provided value is a list of specified type.
  *
- * @psalm-api
- *
  * @psalm-suppress UnimplementedInterfaceMethod Error due to extending framework base class
  */
 final class IsListValidator extends ConstraintValidator
