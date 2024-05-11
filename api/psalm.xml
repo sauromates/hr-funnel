@@ -21,11 +21,24 @@
         <!-- A lot of Symfony methods may trigger this as false positive -->
         <PossiblyUnusedMethod errorLevel="suppress" />
 
-        <!-- Symfony repositories use ManagerRegistry $registry parameter to call parent constructor with it -->
         <UnusedParam>
             <errorLevel type="suppress">
+                <!-- Symfony repositories use ManagerRegistry $registry parameter to call parent constructor with it -->
                 <directory name="src/Repository" />
+                <!-- Symfony event listeners have event args param provided automatically -->
+                <directory name="src/EventListener" />
             </errorLevel>
         </UnusedParam>
+
+        <!-- Disable class usage check for framework specific directories -->
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <directory name="src/Repository" />
+                <directory name="src/EventListener" />
+                <directory name="src/DataFixtures" />
+                <directory name="src/Validator" />
+                <directory name="src/Entity" />
+            </errorLevel>
+        </UnusedClass>
     </issueHandlers>
 </psalm>

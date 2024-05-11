@@ -8,9 +8,6 @@ use App\Tests\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-/**
- * @psalm-api Class is used by `doctrine:fixtures:load` command only
- */
 final class UserFixtures extends Fixture
 {
     public const FIXTURE_USER_EMAIL = 'user@example.com';
