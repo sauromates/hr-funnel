@@ -10,6 +10,8 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\UserRepository;
 use App\State\ProfileProvider;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -72,6 +74,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    /**
+     * @var Collection<int, Vacancy>
+     */
+    #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Vacancy::class)]
+    private Collection $curatedVacancies;
+
+    /**
+     * @var Collection<int, Vacancy>
+     */
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Vacancy::class)]
+    private Collection $createdVacancies;
+
+    public function __construct()
+    {
+        $this->curatedVacancies = new ArrayCollection();
+        $this->createdVacancies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -197,5 +217,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Vacancy>
+     */
+    public function getCuratedVacancies(): Collection
+    {
+        return $this->curatedVacancies;
+    }
+
+    public function addCuratedVacancy(Vacancy $curatedVacancy): static
+    {
+        if (!$this->curatedVacancies->contains($curatedVacancy)) {
+            $this->curatedVacancies->add($curatedVacancy);
+            $curatedVacancy->setManager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCuratedVacancy(Vacancy $curatedVacancy): static
+    {
+        if ($this->curatedVacancies->removeElement($curatedVacancy)) {
+            // set the owning side to null (unless already changed)
+            if ($curatedVacancy->getManager() === $this) {
+                $curatedVacancy->setManager(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vacancy>
+     */
+    public function getCreatedVacancies(): Collection
+    {
+        return $this->createdVacancies;
+    }
+
+    public function addCreatedVacancy(Vacancy $createdVacancy): static
+    {
+        if (!$this->createdVacancies->contains($createdVacancy)) {
+            $this->createdVacancies->add($createdVacancy);
+            $createdVacancy->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedVacancy(Vacancy $createdVacancy): static
+    {
+        if ($this->createdVacancies->removeElement($createdVacancy)) {
+            // set the owning side to null (unless already changed)
+            if ($createdVacancy->getCreatedBy() === $this) {
+                $createdVacancy->setCreatedBy(null);
+            }
+        }
+
+        return $this;
     }
 }
