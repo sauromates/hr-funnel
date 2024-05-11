@@ -33,7 +33,7 @@ services:
         protocol: udp
 
   pwa:
-    image: ${IMAGES_PREFIX:-hrf:}app-php
+    image: ${IMAGES_PREFIX:-hrf:}app-pwa
     environment:
       NUXT_PUBLIC_ENTRYPOINT: http://php
 
