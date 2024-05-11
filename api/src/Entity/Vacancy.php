@@ -18,7 +18,6 @@ use App\Validator\ScalarType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation as Serializer;
-use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VacancyRepository::class)]
@@ -27,7 +26,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     routePrefix: '/api',
     security: 'is_granted("ROLE_USER")',
     normalizationContext: ['groups' => ['read']],
-    exceptionToStatus: [NotNormalizableValueException::class => 422],
     operations: [
         new Get(),
         new GetCollection(),
