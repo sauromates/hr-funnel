@@ -26,6 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     routePrefix: '/api',
     security: 'is_granted("ROLE_USER")',
     normalizationContext: ['groups' => ['read']],
+    validationContext: ['groups' => ['create', 'update']],
     operations: [
         new Get(),
         new GetCollection(),
@@ -50,7 +51,7 @@ class Vacancy
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(max: 255)]
     #[Serializer\Groups(['read', 'create'])]
     private ?string $title = null;
@@ -77,7 +78,7 @@ class Vacancy
     private ?User $manager = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank, Assert\Positive, Assert\Type('integer')]
+    #[Assert\NotBlank(groups: ['create']), Assert\Positive, Assert\Type('integer')]
     #[Serializer\Groups(['read', 'create'])]
     private ?int $minBudget = null;
 
