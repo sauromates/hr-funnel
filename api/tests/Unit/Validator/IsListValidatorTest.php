@@ -72,6 +72,9 @@ final class IsListValidatorTest extends ConstraintValidatorTestCase
             $invalidValue = $expectedErrors[$key];
 
             $this->assertEquals($invalidValue, $violation->getInvalidValue());
+
+            // Don't expect actual value and type to be set in this test. Message placeholders are filled
+            // by Symfony services and this test doesn't have access to the container to load them.
             $this->assertSame('Array is not a valid list: {{ value }} is not of type {{ type }}.', $violation->getMessage());
         }
     }
