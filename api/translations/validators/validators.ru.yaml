@@ -1,0 +1,2 @@
+# "Array is not a valid list: {{ value }} is not of type {{ type }}.": "Некорректный список: {{ value }} не подходит к типу {{ type }}."
+list.error: "Некорректный список: {{ value }} не подходит к типу {{ type }}."

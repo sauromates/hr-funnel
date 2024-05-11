@@ -1,0 +1,4 @@
+"Array is not a valid list: {{ value }} is not of type {{ type }}.": "Array is not a valid list: {{ value }} is not of type {{ type }}."
+# list:
+#     error: Array is not a valid list: {{ value }} is not of type {{ type }}
+    # cause: "All values in array must be of type {{ type }}"
