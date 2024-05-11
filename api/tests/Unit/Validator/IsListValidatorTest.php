@@ -70,11 +70,37 @@ final class IsListValidatorTest extends ConstraintValidatorTestCase
 
         foreach ($violations as $key => $violation) {
             $invalidValue = $expectedErrors[$key];
-            $stringifiedType = $type instanceof ScalarType ? $type->value : $type;
 
             $this->assertEquals($invalidValue, $violation->getInvalidValue());
-            $this->assertSame(sprintf('All values in array must be of type %s.', $stringifiedType), $violation->getCause());
             $this->assertSame('Array is not a valid list: {{ value }} is not of type {{ type }}.', $violation->getMessage());
+        }
+    }
+
+    public function testInvalidValuesAreStringified(): void
+    {
+        $constraint = new IsList(ScalarType::String);
+
+        /** @var array<int, array{value: mixed, expectedString: string}> $input */
+        $input = [
+            ['value' => 1, 'expectedString' => '1'],
+            ['value' => 1.2, 'expectedString' => '1.2'],
+            ['value' => false, 'expectedString' => 'false'],
+            ['value' => true, 'expectedString' => 'true'],
+            ['value' => new \stdClass(), 'expectedString' => 'stdClass'],
+            ['value' => ['test'], 'expectedString' => '["test"]'],
+            ['value' => [], 'expectedString' => '[]'],
+            ['value' => null, 'expectedString' => 'null'],
+        ];
+
+        $this->validator->validate(array_map(fn (array $item): mixed => $item['value'], $input), $constraint);
+
+        $violations = $this->context->getViolations();
+
+        foreach ($violations as $key => $violation) {
+            $expectedString = $input[$key]['expectedString'];
+            $expectedCause = sprintf('%s is not a valid value for a list of type string', $expectedString);
+
+            $this->assertSame($expectedCause, $violation->getCause());
         }
     }
 

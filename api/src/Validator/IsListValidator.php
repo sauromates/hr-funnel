@@ -47,11 +47,17 @@ final class IsListValidator extends ConstraintValidator
         };
 
         /**
-         * @var scalar|object $invalidValue
+         * @var mixed $invalidValue
          */
         foreach ($errors as $invalidValue) {
             $stringifiedType = $constraint->type instanceof ScalarType ? $constraint->type->value : $constraint->type;
-            $stringifiedValue = \is_object($invalidValue) ? $invalidValue::class : (string) $invalidValue;
+            $stringifiedValue = match (true) {
+                \is_object($invalidValue) => $invalidValue::class,
+                \is_bool($invalidValue) => $invalidValue ? 'true' : 'false',
+                \is_array($invalidValue) => json_encode($invalidValue),
+                null === $invalidValue => 'null',
+                default => (string) $invalidValue,
+            };
 
             $this->context->buildViolation($constraint->message)
                 ->setParameters([
@@ -59,7 +65,7 @@ final class IsListValidator extends ConstraintValidator
                     '{{ type }}' => $stringifiedType,
                 ])
                 ->setInvalidValue($invalidValue)
-                ->setCause(sprintf('All values in array must be of type %s.', $stringifiedType))
+                ->setCause(sprintf('%s is not a valid value for a list of type %s', $stringifiedValue, $stringifiedType))
                 ->addViolation();
         }
     }
