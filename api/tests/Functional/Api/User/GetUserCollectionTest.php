@@ -4,46 +4,38 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Api\User;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\User;
 use App\Tests\Factory\UserFactory;
+use App\Tests\Functional\Api\ApiCollectionTestCase;
 use App\Tests\Util\JwtAuthenticatedClient;
-use Zenstruck\Foundry\Test\Factories;
+use Symfony\Component\HttpFoundation\Request;
 
-final class GetUserCollectionTest extends ApiTestCase
+/**
+ * @extends ApiCollectionTestCase<User>
+ */
+final class GetUserCollectionTest extends ApiCollectionTestCase
 {
-    use Factories;
     use JwtAuthenticatedClient;
 
     public function testCanGetUsersCollection(): void
     {
-        // Create items for at least 3 page collection (hence the minimum of 91)
-        UserFactory::createMany(random_int(91, 199));
+        self::createAuthenticatedClient()->request(Request::METHOD_GET, $this->getCollectionEndpoint());
 
-        $usersCount = UserFactory::repository()->count();
-        $perPage = 30;
+        $this->assertCollectionResponseIsSuccessfull();
+    }
 
-        $response = self::createAuthenticatedClient()
-            ->request('GET', '/api/users?page=2') // Page query is used to check full pagination response
-            ->toArray();
+    protected static function getResource(): string
+    {
+        return User::class;
+    }
 
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            '@context' => '/contexts/User',
-            '@id' => '/api/users',
-            '@type' => 'hydra:Collection',
-            'hydra:totalItems' => $usersCount,
-            'hydra:view' => [
-                '@id' => '/api/users?page=2',
-                '@type' => 'hydra:PartialCollectionView',
-                'hydra:first' => '/api/users?page=1',
-                'hydra:last' => '/api/users?page='.ceil($usersCount / $perPage),
-                'hydra:previous' => '/api/users?page=1',
-                'hydra:next' => '/api/users?page=3',
-            ],
-        ]);
-        $this->assertCount($perPage, $response['hydra:member']);
-        $this->assertMatchesResourceCollectionJsonSchema(User::class);
+    protected static function getPath(): string
+    {
+        return '/api/users';
+    }
+
+    protected static function getFactory(): string
+    {
+        return UserFactory::class;
     }
 }
