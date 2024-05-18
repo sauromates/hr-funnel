@@ -33,7 +33,7 @@ final class IsListValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'array');
         }
 
-        if (!$this->validateKeys($value)) {
+        if (!array_is_list($value)) {
             throw new UnexpectedValueException($value, 'list');
         }
 
@@ -66,19 +66,6 @@ final class IsListValidator extends ConstraintValidator
                 ->setCause(sprintf('%s is not a valid value for a list of type %s', $stringifiedValue, $stringifiedType))
                 ->addViolation();
         }
-    }
-
-    /**
-     * Validates that all array keys are integers (thus array is a valid list).
-     *
-     * @param array<mixed> $value
-     */
-    private function validateKeys(array $value): bool
-    {
-        $keys = array_keys($value);
-        $stringKeys = array_filter($keys, fn (int|string $key): bool => \is_string($key));
-
-        return 0 === \count($stringKeys);
     }
 
     /**
