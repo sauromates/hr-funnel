@@ -1,4 +1,6 @@
 {
+  "name": "sauromates/hr-funnel",
+  "description": "HR processes automation and statistics.",
   "type": "project",
   "license": "MIT",
   "require": {

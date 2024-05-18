@@ -1,5 +1,7 @@
 {
-  "name": "nuxt-app",
+  "name": "@sauromates/hr-funnel",
+  "description": "HR processes automation and statistics.",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {
