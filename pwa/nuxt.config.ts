@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     // See https://github.com/api-platform/create-client/issues/382
     renderJsonPayloads: false,
   },
+  components: [{ path: '~/components', pathPrefix: false }],
   runtimeConfig: {
     public: {
       appName: 'HRF',
