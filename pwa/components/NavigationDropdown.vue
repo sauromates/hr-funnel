@@ -7,7 +7,7 @@ type NavigationDropdownProps = {
 };
 
 const props = withDefaults(defineProps<NavigationDropdownProps>(), {
-  navItems: () => [{ label: 'Vacancies' }, { label: 'Campaigns' }, { label: 'Candidates' }],
+  navItems: () => [{ label: 'Vacancies', to: '/vacancies' }, { label: 'Campaigns' }, { label: 'Candidates' }],
 });
 
 const authStore = useAuthStore();
