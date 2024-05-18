@@ -83,27 +83,7 @@ export default defineNuxtPlugin(async () => {
     },
   };
 
-  const fetchTokens = async (getter: () => Promise<TokenResponse>): Promise<void> => {
-    try {
-      const tokens = await getter();
-      accessToken.value = tokens.token;
-      refreshToken.value = tokens.refreshToken;
-    } catch (error) {
-      console.warn('[API fetchTokens] Failed to get authentication tokens');
-    }
-  };
-
   const apiClient: $Fetch = $fetch.create(defaultClientOptions) as $Fetch;
-
-  if (import.meta.server && !refreshToken.value) {
-    await fetchTokens(() =>
-      apiClient('/api/refresh_token', {
-        method: 'GET',
-        baseURL: ENTRYPOINT,
-        headers: { ...(cookies.cookie && cookies) },
-      })
-    );
-  }
 
   return { provide: { apiClient, defaultClientOptions } };
 });
